@@ -1,6 +1,6 @@
 pipeline { 
-  
-  agent any
+    agent {
+        lable 'worker'
    
    stages {
         stage('Build') {
@@ -9,8 +9,8 @@ pipeline {
                 }
         }
         stage('Test') {
-            steps {
-                echo 'Testing..'
+            agent {
+                lable 'master'
             }
         }
         stage('Deploy') {
