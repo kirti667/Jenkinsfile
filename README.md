@@ -1,22 +1,15 @@
-pipeline { 
-    agent {
-        lable 'worker'
-   
-   stages {
-        stage('Build') {
-            steps {
-                sh 'mvn package'
+pipeline {
+    agent any
+    stages {
+        stage('Build') { 
+             steps {
+                sh 'mvn clean package'
+        }
+        }
+        stage('SonarQube analysis') { 
+             steps {
+                withSonarQubeEnv('sonar') { 
+                sh 'mvn sonar:sonar'
                 }
         }
-        stage('Test') {
-            agent {
-                lable 'master'
-            }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
-    }
-}
